@@ -13,7 +13,7 @@
     "echarts": "^4.2.1",
     "element-ui": "^2.11.1",
     "iview": "^3.4.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "lib-flexible": "^0.3.2",
     "popper.js": "^1.15.0",
     "qs": "^6.7.0",
