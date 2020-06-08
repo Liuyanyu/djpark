@@ -1,0 +1,373 @@
+<template>
+    <div class="info">
+        <div class="analyze">
+            <div class="soil-model">
+                <div class="title">
+                    <span>土壤监测指标分析</span>
+                    <img src="../../../assets/loading.png">
+                </div>
+                <div class="search">
+                    <div>
+                        <Select v-model="model1" class="select">
+                            <Option v-for="item in sensorList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                    </div>
+                    <div class="radioGroup">
+                        <label>时间间隔</label>
+                        <RadioGroup v-model="animal" class="radio">
+                            <Radio label="小时"></Radio>
+                            <Radio label="日"></Radio>
+                            <Radio label="月"></Radio>
+                        </RadioGroup>
+                    </div>
+                </div>
+            </div>
+            <div id="myChart1" :style="{width: '100%', height: '4rem'}"></div>
+            <div id="myChart2" :style="{width: '100%', height: '4rem'}"></div>
+            <div id="myChart3" :style="{width: '100%', height: '4rem'}"></div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "right",
+        data() {
+            return{
+                sensorList: [
+                    {
+                        value: '1',
+                        label: '监测点1'
+                    },
+                    {
+                        value: '2',
+                        label: '监测点2'
+                    },
+                    {
+                        value: '3',
+                        label: '监测点3'
+                    }
+                ],
+                model1: '1',
+                animal: '爪哇犀牛'
+            }
+        },
+        mounted() {
+            //this.$chart.line1('chart1');
+            this.drawLine();
+        },
+        methods: {
+            drawLine(){
+                // 基于准备好的dom，初始化echarts实例
+                let myChart1 = this.$echarts.init(document.getElementById('myChart1'))
+                let myChart2 = this.$echarts.init(document.getElementById('myChart2'))
+                let myChart3 = this.$echarts.init(document.getElementById('myChart3'))
+                // 绘制图表
+                myChart1.setOption({
+                    title: [
+                        {
+                            text: '土壤盐度指标分析',
+                            top:'10%',
+                            textStyle: {color: '#00ffff',fontSize:14}
+                        },
+                        {
+                            text: '最高值：18.5',
+                            left:'50%',
+                            top:'12%',
+                            textStyle: {color: '#00ccff',fontSize:12}
+                        },
+                        {
+                            text: '最低值：-20',
+                            left:'75%',
+                            top:'12%',
+                            textStyle: {color: '#fef235',fontSize:12}
+                        }
+                    ],
+                    tooltip: {},
+                    xAxis: {
+                        //去除刻度线
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                type: 'solid',
+                                color: '#00ccff',
+                            }
+                        },
+                        data: ["08:00","09:00","10:00","11:00","12:00","13:00"]
+                    },
+                    yAxis: {
+                        // 去除网格线
+                        splitLine:{
+                            show: false
+                        },
+                        // 去除刻度线
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                type: 'solid',
+                                color:'#00ccff',
+                            }
+                        },
+                    },
+                    series: [{
+                        name: '盐度',
+                        color:['#75ff0f'],
+                        symbol: 'none',  //取消折点圆圈
+                        smooth: false,  //折线平滑
+                        type:'line',
+                        lineStyle:{normal:{width: 1}},
+                        data: [5, 20, 36, 10, 10, 20],
+                        markLine: {
+                            symbol:"none",
+                            label:{
+                                position:"end"          //将警示值放在哪个位置，三个值“start”,"middle","end"  开始  中点 结束
+                            },
+                            data: [
+                                [
+                                    {name: '5',coord: ["08:00", 0]},
+                                    {coord: ["08:00", 5]},
+                                    {lineStyle: {color:"#fef235"}}
+                                ],
+                                [
+                                    {name: '36',coord: ["10:00", 0]},
+                                    {coord: ["10:00", 36]},
+                                    {lineStyle: {color:"#00ccff"}}
+                                ]
+                            ]
+                        }
+                    }]
+                });
+                myChart2.setOption({
+                    title: [
+                        {
+                            text: '土壤温度指标分析',
+                            top:'10%',
+                            textStyle: {color: '#00ffff',fontSize:14}
+                        },
+                        {
+                            text: '最高值：18.5',
+                            left:'50%',
+                            top:'12%',
+                            textStyle: {color: '#00ccff',fontSize:12}
+                        },
+                        {
+                            text: '最低值：-20',
+                            left:'75%',
+                            top:'12%',
+                            textStyle: {color: '#fef235',fontSize:12}
+                        }
+                    ],
+                    tooltip: {},
+                    xAxis: {
+                        //去除刻度线
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                type: 'solid',
+                                color: '#00ccff',
+                            }
+                        },
+                        data: ["08:00","09:00","10:00","11:00","12:00","13:00"]
+                    },
+                    yAxis: {
+                        // 去除网格线
+                        splitLine:{
+                            show: false
+                        },
+                        // 去除刻度线
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                type: 'solid',
+                                color:'#00ccff',
+                            }
+                        },
+                    },
+                    series: [{
+                        name: '温度',
+                        color:['#75ff0f'],
+                        symbol: 'none',  //取消折点圆圈
+                        smooth: false,  //折线平滑
+                        type:'line',
+                        lineStyle:{normal:{width: 1}},
+                        data: [5, 20, 36, 10, 10, 20],
+                        markLine: {
+                            symbol:"none",
+                            label:{
+                                position:"end"          //将警示值放在哪个位置，三个值“start”,"middle","end"  开始  中点 结束
+                            },
+                            data: [
+                                [
+                                    {name: '5',coord: ["08:00", 0]},
+                                    {coord: ["08:00", 5]},
+                                    {lineStyle: {color:"#fef235"}}
+                                ],
+                                [
+                                    {name: '36',coord: ["10:00", 0]},
+                                    {coord: ["10:00", 36]},
+                                    {lineStyle: {color:"#00ccff"}}
+                                ]
+                            ]
+                        }
+                    }]
+                });
+                myChart3.setOption({
+                    title: [
+                        {
+                            text: '土壤湿度指标分析',
+                            top:'10%',
+                            textStyle: {color: '#00ffff',fontSize:14}
+                        },
+                        {
+                            text: '最高值：18.5',
+                            left:'50%',
+                            top:'12%',
+                            textStyle: {color: '#00ccff',fontSize:12}
+                        },
+                        {
+                            text: '最低值：-20',
+                            left:'75%',
+                            top:'12%',
+                            textStyle: {color: '#fef235',fontSize:12}
+                        }
+                    ],
+                    tooltip: {},
+                    xAxis: {
+                        //去除刻度线
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                type: 'solid',
+                                color: '#00ccff',
+                            }
+                        },
+                        data: ["08:00","09:00","10:00","11:00","12:00","13:00"]
+                    },
+                    yAxis: {
+                        // 去除网格线
+                        splitLine:{
+                            show: false
+                        },
+                        // 去除刻度线
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                type: 'solid',
+                                color:'#00ccff',
+                            }
+                        },
+                    },
+                    series: [{
+                        name: '湿度',
+                        color:['#75ff0f'],
+                        symbol: 'none',  //取消折点圆圈
+                        smooth: false,  //折线平滑
+                        type:'line',
+                        lineStyle:{normal:{width: 1}},
+                        data: [5, 20, 36, 10, 10, 20],
+                        markLine: {
+                            symbol:"none",
+                            label:{
+                                position:"end"          //将警示值放在哪个位置，三个值“start”,"middle","end"  开始  中点 结束
+                            },
+                            data: [
+                                [
+                                    {name: '5',coord: ["08:00", 0]},
+                                    {coord: ["08:00", 5]},
+                                    {lineStyle: {color:"#fef235"}}
+                                ],
+                                [
+                                    {name: '36',coord: ["10:00", 0]},
+                                    {coord: ["10:00", 36]},
+                                    {lineStyle: {color:"#00ccff"}}
+                                ]
+                            ]
+                        }
+                    }]
+                });
+            }
+        }
+    }
+</script>
+
+<style scoped>
+    .info{
+        height: 80%;
+        width: 7rem;
+        background: #01071f35;
+        /* z-irrigate: 10000; */
+        right: 0.6rem;
+        top: 10%;
+        position: absolute;
+    }
+    .analyze{
+        height: 90%;
+        width: 90%;
+        margin: 5%;
+        background: #002e5c53;
+    }
+    .soil-model{
+        height: 4rem;
+    }
+    .soil-model .title{
+        text-align: left;
+        height: 1rem;
+        line-height: 1rem;
+        font-size: 0.4rem;
+        color: #00ffff;
+        border-bottom: 0.001rem solid #00ccff;
+    }
+
+    .soil-model .title span{
+        font-weight: 600;
+        margin-left: 0.1rem;
+    }
+
+    .soil-model .title img{
+        margin-left: 0.5rem;
+    }
+
+    .search {
+        margin: 0.3rem;
+        text-align: left;
+    }
+
+
+    .search .select{
+        width: 2.4rem;
+    }
+
+    .ivu-select-selection{
+        color: #ffffff;
+        background-color: #116fbd60 !important;
+        border-radius: 0 !important;
+    }
+    .search .radioGroup{
+        color: #ffffff;
+    }
+
+    .search .radioGroup label {
+        padding: 0.4rem 0.4rem 0.4rem 0;
+        font-size: 0.2rem;
+    }
+    .search .radio {
+        font-weight: 600;
+        margin-top: -0.1rem;
+    }
+    #myChart2, #myChart3{
+        margin-top: -0.8rem;
+    }
+
+</style>
